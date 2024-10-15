@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 import plotly.graph_objects as go
+from sklearn.cluster import DBSCAN
 
 # Function 1
 def txt_to_csv(file_name):
@@ -234,7 +235,7 @@ def dis_plot(df, feature):
 
     sns.set_theme()
     fig = plt.figure(figsize = (12, 6))
-    fig = sns.histplot(df, x = feature, color = "orange", bins = 15)
+    fig = sns.histplot(df, x = feature, color = "orange", bins = 25)
     title = feature + " distribution"
     fig.set(title = title)
 
@@ -268,3 +269,33 @@ def cor_matrix(df, features):
     cor = df.corr()
 
     return cor
+
+# Function 10
+def DBSCAN_alg(df, x, y, eps):
+    """
+    Perform DBSCAN algorithm with given dataframe, x, and y and plot
+    a clustering graph.
+    """
+
+    df["x"] = df[x]
+    df["y"] = df[y]
+    X = df[["x", "y"]].values
+    dbscan = DBSCAN(eps=eps, min_samples=3)
+    df['cluster'] = dbscan.fit_predict(X)
+
+    plt.figure(figsize=(10, 6))
+    unique_clusters = df['cluster'].unique()
+
+    for cluster in unique_clusters:
+        cluster_data = df[df['cluster'] == cluster]
+        if cluster == -1:
+            plt.scatter(cluster_data['x'], cluster_data['y'], color='black', label='Noise', marker='x')
+        else:
+            plt.scatter(cluster_data['x'], cluster_data['y'], label=f'Cluster {cluster}')
+
+    plt.title('DBSCAN Clustering')
+    plt.xlabel(x)
+    plt.ylabel(y)
+    plt.legend()
+    plt.grid()
+    plt.show()
