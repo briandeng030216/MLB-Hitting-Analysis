@@ -283,19 +283,18 @@ def DBSCAN_alg(df, x, y, eps):
     dbscan = DBSCAN(eps=eps, min_samples=3)
     df['cluster'] = dbscan.fit_predict(X)
 
-    plt.figure(figsize=(10, 6))
+    sns.set_theme()
+    fig = plt.figure(figsize=(12, 6))
     unique_clusters = df['cluster'].unique()
 
     for cluster in unique_clusters:
         cluster_data = df[df['cluster'] == cluster]
         if cluster == -1:
-            plt.scatter(cluster_data['x'], cluster_data['y'], color='black', label='Noise', marker='x')
+            fig = sns.scatterplot(x = cluster_data['x'], y = cluster_data['y'], color='black', label='Noise', marker='x')
         else:
-            plt.scatter(cluster_data['x'], cluster_data['y'], label=f'Cluster {cluster}')
+            fig = sns.scatterplot(x = cluster_data['x'], y = cluster_data['y'])
 
     plt.title('DBSCAN Clustering')
     plt.xlabel(x)
     plt.ylabel(y)
-    plt.legend()
-    plt.grid()
     plt.show()
