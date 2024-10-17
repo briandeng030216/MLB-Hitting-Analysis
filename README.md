@@ -7,4 +7,4 @@ This project is designed for analyzing MLB players hitting fastballs in 2024 reg
 To analyze a player's contact ability, I mainly focus on batting average and contact rate. One important feature is Whiffs, which represents how many times a player swing but not make contact with the ball, then I create a varable Whiffs% = Whiffs / Swing.
 
 The following graph shows the Whiffs% distribution.
-<img src = "whiffs%.png" wid = "200">
+![image](whiffs%.png)
